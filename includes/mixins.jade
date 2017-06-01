@@ -1,0 +1,15 @@
+mixin mypara1
+	p hello there
+
+mixin mypara2(val)
+	p= val
+
+mixin mypara3(val1, id1)
+	p(id=id1)= val1
+
+
+mixin myinput(myfor, mytype, myname, myid, myval)
+	label(for=myfor)
+	input(type=mytype, name=myname, id=myid, value=myval)
+
+- var myvarinmixinsjadefile	= 'from mixins.jade which is an included file'

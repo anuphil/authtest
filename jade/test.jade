@@ -1,0 +1,14 @@
+.settingsPanel.twitterVolumeAccountsPanel.central(ng-class="{ twitterVolumeStatusEnabled: twitterVolumeStatusEnabled }", ng-if="twitterVolumeStatusEnabled")
+   .body.contentBox
+      .header
+         .title.translate Tweet Volume
+         .info.devider
+      .twitterVolumeContainer
+         .twitterVolumeDetails
+             .item
+                 active-on-icon(account-type='twitter')
+                 div.entitlement.translate {{ entitlement }}
+                 div.volume {{ volumeLimitMsg }}
+                 div.status.right.active.translate(ng-if="!twitterStatus") Active
+                 div.status.right.inactive.translate(ng-if="twitterStatus") Daily Maximum Reached
+      

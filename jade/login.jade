@@ -1,0 +1,24 @@
+form(ng-submit="submit()", name="login", novalidate="")
+	div.form-group
+		div.row
+			div.col-xs-3
+				input.form-control(id="email", name="email", ng-model="email", type="email",placeholder="Email", required="")
+				p.help-block(ng-show="login.email.$dirty && login.email.$invalid") Please enter proper email
+		div.row
+			div.col-xs-3
+				input.form-control(id="password", name="password", ng-model="password", type="password", placeholder="Password")
+		div.row
+			div.col-xs-3
+				button.btn.btn-primary(type="Submit", ng-disabled="login.$invalid") Login
+		//div.row
+		//	div.col-xs-3
+		//		a(href="#/register") Register
+
+		br
+
+		div.row.alert.animated(ng-if="login", id="loginpagealert", class="alert-{{alert-type}}", ng-class="{'flipInY': alert.show, 'flipOutY': !alert.show, 'alert-hidden': !alert.hasBeenShown}")
+			strong{{alert.title}}
+			{{alert.message}}
+
+		
+

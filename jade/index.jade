@@ -1,0 +1,47 @@
+extends ../layouts/layout.jade
+include ../includes/mixins.jade
+
+block myBlockHeadContent
+		title Authenticate User
+		link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
+		link(rel="stylesheet", href="https://bootswatch.com/slate/bootstrap.min.css")
+		link(rel="stylesheet", href="/css/animate.css")
+		link(rel="stylesheet", href="/css/mymain.css")
+
+block myBlockBodyContent
+				//h1 Authenticate User App
+				div(ng-controller='MainController')
+					div.btn-group
+						button.btn.btn-primary(ng-click="showReceivedMWAPIData()") View MW API Data Received
+					div.btn-group
+						button.btn.btn-primary(ng-click="books()") Books
+					div.btn-group
+						button.btn.btn-primary(ng-click="login()") Login
+					div.btn-group(ng-hide="isAuthenticated()")
+						button.btn.btn-primary(ng-click="register()") Register
+					div.btn-group(ng-show="isAuthenticated()")
+						button.btn.btn-primary(ng-click='logout()') Logout
+					
+				br
+
+				div(ng-view)
+
+
+				
+				
+
+				script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+				script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")
+				script(data-require="angular.js@1.5.x", src="https://code.angularjs.org/1.5.8/angular.js", data-semver="1.5.8")
+				script(data-require="angular-route@*", data-semver="1.5.8", src="https://code.angularjs.org/1.5.8/angular-route.js")
+
+				script(src="app.js")
+				script(src="/controllers/MainController.js")
+				script(src="/controllers/RegisterController.js")
+				script(src="/controllers/LoginController.js")
+				script(src="/controllers/LogoutController.js")
+				script(src="/controllers/BooksController.js")
+				script(src="/directives/validateEquals.js")
+				script(src="/services/AlertService.js")
+				script(src="/services/AuthToken.js")
+				script(src="/services/AuthInterceptor.js")

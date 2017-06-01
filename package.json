@@ -1,0 +1,14 @@
+{
+  "devDependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.2",
+    "crypto": "0.0.3",
+    "express": "^4.14.0",
+    "gulp": "^3.9.1",
+    "gulp-jade": "^1.1.0",
+    "gulp-livereload": "^3.8.1",
+    "jade": "^1.11.0",
+    "mongoose": "^4.7.5",
+    "rename": "^1.0.3"
+  }
+}

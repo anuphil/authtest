@@ -1,0 +1,20 @@
+
+<div ng-class="{ twitterVolumeStatusEnabled: twitterVolumeStatusEnabled }" ng-if="twitterVolumeStatusEnabled" class="settingsPanel twitterVolumeAccountsPanel central">
+  <div class="body contentBox">
+    <div class="header">
+      <div class="title translate">Tweet Volume</div>
+      <div class="info devider"></div>
+    </div>
+    <div class="twitterVolumeContainer">
+      <div class="twitterVolumeDetails">
+        <div class="item">
+          <active-on-icon account-type="twitter"></active-on-icon>
+          <div class="entitlement translate">{{ entitlement }}</div>
+          <div class="volume">{{ volumeLimitMsg }}</div>
+          <div ng-if="!twitterStatus" class="status right active translate">Active</div>
+          <div ng-if="twitterStatus" class="status right inactive translate">Daily Maximum Reached</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

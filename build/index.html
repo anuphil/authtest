@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html ng-app="authApp">
+  <head>
+    <title>Authenticate User</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://bootswatch.com/slate/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/animate.css">
+    <link rel="stylesheet" href="/css/mymain.css">
+  </head>
+  <body>
+    <div ng-cloak="" class="container">
+      <h1>Authenticate User App</h1>
+      <!--h1 Authenticate User App-->
+      <div ng-controller="MainController">
+        <div class="btn-group">
+          <button ng-click="showReceivedMWAPIData()" class="btn btn-primary">View MW API Data Received</button>
+        </div>
+        <div class="btn-group">
+          <button ng-click="books()" class="btn btn-primary">Books</button>
+        </div>
+        <div class="btn-group">
+          <button ng-click="login()" class="btn btn-primary">Login</button>
+        </div>
+        <div ng-hide="isAuthenticated()" class="btn-group">
+          <button ng-click="register()" class="btn btn-primary">Register</button>
+        </div>
+        <div ng-show="isAuthenticated()" class="btn-group">
+          <button ng-click="logout()" class="btn btn-primary">Logout</button>
+        </div>
+      </div><br>
+      <div ng-view></div>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script data-require="angular.js@1.5.x" src="https://code.angularjs.org/1.5.8/angular.js" data-semver="1.5.8"></script>
+      <script data-require="angular-route@*" data-semver="1.5.8" src="https://code.angularjs.org/1.5.8/angular-route.js"></script>
+      <script src="app.js"></script>
+      <script src="/controllers/MainController.js"></script>
+      <script src="/controllers/RegisterController.js"></script>
+      <script src="/controllers/LoginController.js"></script>
+      <script src="/controllers/LogoutController.js"></script>
+      <script src="/controllers/BooksController.js"></script>
+      <script src="/directives/validateEquals.js"></script>
+      <script src="/services/AlertService.js"></script>
+      <script src="/services/AuthToken.js"></script>
+      <script src="/services/AuthInterceptor.js"></script>
+    </div>
+  </body>
+</html>

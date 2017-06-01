@@ -1,0 +1,33 @@
+
+<form ng-submit="submit()" name="register" novalidate="">
+  <div class="form-group">
+    <div class="row">
+      <div class="col-xs-3">
+        <input id="name" name="name" ng-model="name" type="text" placeholder="Name" autofocus="" class="form-control"/>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">
+        <input id="email" name="email" ng-model="email" type="email" placeholder="Email" required="" class="form-control"/>
+        <p ng-show="register.email.$dirty &amp;&amp; register.email.$invalid" class="help-block">Please enter proper email</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">
+        <input id="password" name="password" ng-model="password" type="password" placeholder="Password" class="form-control"/>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">
+        <input id="password_confirm" name="password_confirm" ng-model="password_confirm" type="password" placeholder="Confirm Password" validate-equals="password" class="form-control"/>
+        <p ng-show="register.password_confirm.$dirty &amp;&amp; register.password_confirm.$invalid" class="help-block">Please match passwords</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">
+        <button type="Submit" ng-disabled="register.$invalid" class="btn btn-primary">Register</button>
+      </div>
+    </div>
+    <div ng-if="register" ng-class="{'flipInY': alert.show, 'flipOutY': !alert.show, 'alert-hidden': !alert.hasBeenShown}" class="row alert animated alert-{{alert-type}}"><strong>{{alert.title}}</strong>{{alert.message}}</div>
+  </div>
+</form>

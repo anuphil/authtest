@@ -1,0 +1,25 @@
+
+<form ng-submit="submit()" name="login" novalidate="">
+  <div class="form-group">
+    <div class="row">
+      <div class="col-xs-3">
+        <input id="email" name="email" ng-model="email" type="email" placeholder="Email" required="" class="form-control"/>
+        <p ng-show="login.email.$dirty &amp;&amp; login.email.$invalid" class="help-block">Please enter proper email</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">
+        <input id="password" name="password" ng-model="password" type="password" placeholder="Password" class="form-control"/>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">
+        <button type="Submit" ng-disabled="login.$invalid" class="btn btn-primary">Login</button>
+      </div>
+    </div>
+    <!--div.row-->
+    <!--	div.col-xs-3-->
+    <!--		a(href="#/register") Register--><br/>
+    <div ng-if="login" id="loginpagealert" ng-class="{'flipInY': alert.show, 'flipOutY': !alert.show, 'alert-hidden': !alert.hasBeenShown}" class="row alert animated alert-{{alert-type}}"><strong>{{alert.title}}</strong>{{alert.message}}</div>
+  </div>
+</form>

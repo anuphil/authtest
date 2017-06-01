@@ -1,0 +1,128 @@
+
+<div class="inboxApp inboxList">
+  <div class="sectionHeader">
+    <div class="row">
+      <div class="twelve columns">
+        <div class="breadcrumbsWrapper">
+          <core-breadcrumb breadcrumbs="inboxController.breadcrumbs"></core-breadcrumb><span ng-show="inboxController.displayContentStream" class="dropDownMenuWrapper">
+            <dropdown-menu label="inboxController.selectedDropdownItem" auto-width="auto-width" ng-class="{currentInboxItem: inboxItemToDisplay.length &gt; 0}" truncate-tag="true" on-close="inboxController.saveFavorites()" class="inboxDropdownArrow">
+              <div class="popup">
+                <core-input-selector selected-input="inboxController.selectedDropdownItemId" multi-select="false" on-change="inboxController.inputSelectUpdate(selectedItem, selectedItemGroup)" should-save-favorites="inboxController.shouldSaveFavorites" show-categories="inboxController.showTheseCategories" inbox-selected-items="inboxController.actionButtonsDisabled()" should-update-inputs="inboxController.shouldUpdateInputs"></core-input-selector>
+              </div>
+            </dropdown-menu></span>
+        </div>
+        <div>
+          <div class="contentStreamControls right">
+            <ul class="button-group common-button-group right">
+              <li class="reportSettingsSection"><a ng-click="inboxController.configureReport()" title="{{'Report Settings' | translate}}" class="button iconButton icon-signup"></a></li>
+            </ul>
+            <content-stream-date-picker dates="inboxController.currentDateRange" date-change-callback="inboxController.dateRangeUpdated(startDate, endDate)"></content-stream-date-picker>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+  <div ng-show="inboxController.displayContentStream" class="row">
+    <div class="twelve columns">
+      <core-stream ng-if="!inboxController.showRelevantContactStream">
+        <header cs-sticky-header="cs-sticky-header" parent-id="header" class="sticky">
+          <cs-action-bar>
+            <!-- SELECT ALL TOGGLE-->
+            <cs-select-drop-down ng-if="!inboxController.showRelevantContactStream" toggle-select-all="inboxController.toggleSelectAll()" select-all="inboxController.documentSelector.selectAll(inboxController.documentStreamData.documentArray, inboxController.docsWithVisibleDuplicates)" deselect-all="inboxController.documentSelector.deselectAll()" all-selected="inboxController.documentSelector.allSelected"></cs-select-drop-down>
+            <!-- DOCUMENT ACTION BUTTONS-->
+            <div ng-show="inboxController.showActionButtons(inboxController.documentSelector.selectedItems)" class="actionButtonContainer"><span translate-attr="translate-attr" translate-attr-title="Share" ng-click="inboxController.forwardDocuments()" ng-class="{disabled: inboxController.documentSelector.trueAllSelected &amp;&amp; inboxController.documentSelector.allSelected}" id="shareDocsBtn" class="actionButton icon-paperplane"></span>
+              <forward-document-dialog forward-document-model="forwardDocumentModel"></forward-document-dialog><span data-href="https://twitter.com/share" translate-attr="translate-attr" translate-attr-title="Post to Twitter" ng-if="!inboxController.isChinaPSPEntitled" ng-click="inboxController.multipleItemsSelected(inboxController.documentSelector.selectedItems) || inboxController.shareOnSocial('twitter')" ng-class="{disabled: inboxController.multipleItemsSelected(inboxController.documentSelector.selectedItems)}" class="actionButton icon-twitter-no-background"></span><span data-href="https://developers.facebook.com/docs/plugins/" translate-attr="translate-attr" translate-attr-title="Post to Facebook" ng-if="!inboxController.isChinaPSPEntitled" ng-click="inboxController.multipleItemsSelected(inboxController.documentSelector.selectedItems) || inboxController.shareOnSocial('facebook')" ng-class="{disabled: inboxController.multipleItemsSelected(inboxController.documentSelector.selectedItems)}" class="actionButton icon-facebook-no-background"></span><span tag-modal="tag-modal" tag-added="inboxController.tagAdded(tagToAdd)" tag-documents="inboxController.documentSelector.selectedItems" translate-attr="translate-attr" translate-attr-title="Tag" ng-click="inboxController.toggleTagDialog($event)" ng-class="{active : inboxController.isTagDialogVisible, disabled: !inboxController.bulkSelectAllTagsToggleState &amp;&amp; inboxController.documentSelector.trueAllSelected &amp;&amp; inboxController.documentSelector.allSelected}" class="actionButton icon-tag"></span>
+              <!--span {{ inboxController.documentSelector | json }}--><span translate-attr="translate-attr" translate-attr-title="Translate" ng-click="inboxController.multipleItemsSelected(inboxController.documentSelector.selectedItems) || inboxController.translateArticle()" ng-class="{disabled: inboxController.multipleItemsSelected(inboxController.documentSelector.selectedItems)}" class="actionButton icon-translate"></span><span translate-attr="translate-attr" translate-attr-title="Export Content" ng-click="inboxController.exportSelectedDocuments()" ng-class="{disabled : !inboxController.bulkSelectAllExportToggleState &amp;&amp; inboxController.documentSelector.trueAllSelected &amp;&amp; inboxController.documentSelector.allSelected}" class="actionButton icon-download"></span><span translate-attr="translate-attr" translate-attr-title="Hide Documents" ng-click="inboxController.hideSelectedDocuments()" ng-if="inboxController.showHideUnhideOption &amp;&amp; !inboxController.query.showHiddenDocuments" ng-class="{disabled: inboxController.documentSelector.trueAllSelected &amp;&amp; inboxController.documentSelector.allSelected}" class="actionButton icon-hide-document"></span><span translate-attr="translate-attr" translate-attr-title="Unhide Documents" ng-click="inboxController.unhideSelectedDocuments()" ng-if="inboxController.showHideUnhideOption &amp;&amp; inboxController.query.showHiddenDocuments" ng-class="{disabled: inboxController.documentSelector.trueAllSelected &amp;&amp; inboxController.documentSelector.allSelected}" class="actionButton icon-unhide-document"></span>
+            </div>
+            <!-- STATIC STREAM BUTTONS-->
+            <div ng-hide="inboxController.showActionButtons(inboxController.documentSelector.selectedItems)" class="nonActionButtonContainer right">
+              <div ng-if="inboxController.isInfluencerDatabaseEntitled &amp;&amp; inboxController.isInfluencerAppEntitled" ng-hide="inboxController.documentPredictionPanelExpanded || !inboxController.hasContactStream" class="typeToggleContainer"><span class="typeToggle translate selected">Content</span><span ng-click="inboxController.showContactStream()" class="typeToggle translate">Influencers</span></div>
+              <div class="staticButtonContainer">
+                <prediction-panel disable-suggestions="true" collapsable="collapsable" expanded="inboxController.documentPredictionPanelExpanded" predict-from="inboxController.predictionDocumentValues" resulting-filter="inboxController.predictionDocumentFilter"></prediction-panel><span class="actionButton icon-sort">
+                  <dropdown-menu label="inboxController.dummyDropdownLabel" auto-width="auto-width" class="changeSortContainer">
+                    <drop-down-menu-items option-object="inboxController.sortSettings.fields" save-settings="inboxController.sortFieldUpdated(index)" class="sortSettings"></drop-down-menu-items>
+                    <drop-down-menu-items option-object="inboxController.sortSettings.direction" save-settings="inboxController.toggleSortDirection()" class="sortDirectionSettings"></drop-down-menu-items>
+                  </dropdown-menu></span><span class="actionButton icon-settings">
+                  <dropdown-menu label="inboxController.dummyDropdownLabel" auto-width="auto-width" class="changeSettingsContainer">
+                    <drop-down-menu-items option-object="inboxController.displaySettings.fields" save-settings="inboxController.displaySettingsUpdated(index)" class="changeDisplaySettings"></drop-down-menu-items>
+                    <drop-down-menu-items ng-show="inboxController.allowGroupOption" option-object="inboxController.displaySettings.group" save-settings="inboxController.groupSettingUpdated(index)" class="changeGroupSettings"></drop-down-menu-items>
+                  </dropdown-menu></span>
+              </div>
+            </div>
+          </cs-action-bar>
+          <cs-header item-count="inboxController.documentStreamData.totalDocuments" sort-field="inboxController.query.sortField" show-hide-unhide-option="inboxController.showHideUnhideOption" toggle-hidden-documents="inboxController.toggleHiddenDocuments()" show-hidden-documents="inboxController.query.showHiddenDocuments || false" lock-header="true &amp;&amp; !inboxController.documentStreamData.isSearching"></cs-header>
+          <cs-select-all-header ng-if="inboxController.bulkSelectAllToggleState &amp;&amp; !inboxController.documentPredictionPanelExpanded" ng-show="inboxController.documentSelector.allSelected" selected-count="{{inboxController.getSelectedCount(inboxController.documentSelector.selectedItems)}}" item-count="{{inboxController.documentStreamData.totalDocuments}}" reset-selections="inboxController.resetSelections()" true-all-selected="inboxController.documentSelector.trueAllSelected"></cs-select-all-header>
+        </header>
+        <cs-list>
+          <cs-list-loading-state ng-if="inboxController.isPreparingSearch || inboxController.documentStreamData.isSearching">
+            <div class="spinner"></div>
+          </cs-list-loading-state>
+          <div ng-if="inboxController.documentStreamData.documentArray.length" in-view-container="in-view-container" class="listContainer">
+            <div ng-repeat="document in inboxController.documentStreamData.documentArray | documentFilter: inboxController.predictionDocumentFilter" in-view="$last &amp;&amp; $inview &amp;&amp; inboxController.nextDocumentPage()" class="card-container">
+              <div ng-click="inboxController.documentSelector.toggleItemSelection(document, inboxController.documentStreamData.documentArray, inboxController.docsWithVisibleDuplicates)" class="checkboxClickZone pointer">
+                <div id="selectDocument_{{document.documentId}}" ng-class="{selected:inboxController.documentSelector.isSelected(document)}" class="checkbox"></div>
+              </div>
+              <document-card document="document" display-settings="inboxController.rowDisplaySettings" show-duplicates="inboxController.showDuplicates(document.documentId)" document-click="inboxController.documentClick(event, document, url)" overlay-sentiment="inboxController.overlaySentiment(document)" is-influencer-database-entitled="inboxController.isInfluencerDatabaseEntitled" icm-base-url="{{inboxController.icmBaseUrl}}"></document-card>
+              <div ng-if="document.dupDocs &amp;&amp; document.dupDocs.length &gt; 0 &amp;&amp; inboxController.docsWithVisibleDuplicates[document.documentId]" ng-repeat="dupDoc in document.dupDocs" class="duplicate-container">
+                <div ng-click="inboxController.documentSelector.toggleItemSelection(dupDoc, inboxController.documentStreamData.documentArray, inboxController.docsWithVisibleDuplicates)" class="checkboxClickZone pointer">
+                  <div id="selectDocument_{{dupDoc.documentId}}" ng-class="{selected:inboxController.documentSelector.isSelected(dupDoc)}" class="checkbox"></div>
+                </div>
+                <document-card document="dupDoc" display-settings="inboxController.rowDisplaySettings" document-click="inboxController.documentClick(event, dupDoc, url)" overlay-sentiment="inboxController.overlaySentiment(dupDoc)" is-influencer-database-entitled="inboxController.isInfluencerDatabaseEntitled" icm-base-url="{{inboxController.icmBaseUrl}}"></document-card>
+              </div>
+              <more-duplicates ng-if="inboxController.docsWithVisibleDuplicates[document.documentId]" document="document" toggle-duplicates="inboxController.showDuplicates(document.documentId)" query="inboxController.query"></more-duplicates>
+            </div>
+          </div>
+          <cs-list-paging-state ng-if="inboxController.documentStreamData.isPaging">
+            <div class="spinner"></div>
+          </cs-list-paging-state>
+          <cs-list-empty-state ng-if="!inboxController.isPreparingSearch &amp;&amp; !inboxController.documentStreamData.isSearching &amp;&amp; inboxController.documentStreamData.documentArray.length &lt;= 0">
+            <div class="mdLayoutFill mdLayout mdLayoutRow mdLayoutAlignCenterCenter">
+              <div class="emptyStateMessage translate">No Documents</div>
+            </div>
+          </cs-list-empty-state>
+        </cs-list>
+      </core-stream>
+      <core-stream ng-if="inboxController.isInfluencerDatabaseEntitled &amp;&amp; inboxController.showRelevantContactStream">
+        <header cs-sticky-header="cs-sticky-header" parent-id="header" class="sticky">
+          <cs-action-bar>
+            <!-- SELECT ALL TOGGLE-->
+            <cs-select-drop-down ng-if="inboxController.showRelevantContactStream" toggle-select-all="inboxController.contactSelector.toggleSelectAll(inboxController.contactStreamData.contactArray, null, inboxController.predictionContactFilter)" select-all="inboxController.contactSelector.selectAll(inboxController.contactStreamData.contactArray)" deselect-all="inboxController.contactSelector.deselectAll()" all-selected="inboxController.contactSelector.allSelected"></cs-select-drop-down>
+            <!-- DOCUMENT ACTION BUTTONS-->
+            <div ng-show="inboxController.showActionButtons(inboxController.contactSelector.selectedItems)" class="actionButtonContainer"><span ng-click="inboxController.tagSelectedContacts()" translate-attr="translate-attr" translate-attr-title="Add Contacts" class="actionButton icon-add_user_icon"></span></div>
+            <!-- STATIC STREAM BUTTONS-->
+            <div ng-hide="inboxController.showActionButtons(inboxController.contactSelector.selectedItems)" class="nonActionButtonContainer right">
+              <div ng-hide="inboxController.contactPredictionPanelExpanded" class="typeToggleContainer"><span ng-click="inboxController.showDocumentStream()" class="typeToggle translate">Content</span><span class="typeToggle translate selected">Influencers</span></div>
+              <div class="staticButtonContainer">
+                <prediction-panel collapsable="collapsable" expanded="inboxController.contactPredictionPanelExpanded" predict-from="inboxController.predictionContactValues" resulting-filter="inboxController.predictionContactFilter"></prediction-panel><span class="actionButton icon-sort disabled"></span><span class="actionButton icon-settings disabled"></span>
+              </div>
+            </div>
+          </cs-action-bar>
+          <cs-header ng-if="!inboxController.contactStreamData.isSearching" item-count="inboxController.contactStreamData.relevantContactsCount" show-hide-unhide-option="inboxController.showHideUnhideOption"></cs-header>
+          <cs-select-all-header ng-if="inboxController.bulkSelectAllToggleState &amp;&amp; !inboxController.contactPredictionPanelExpanded" ng-show="inboxController.contactSelector.allSelected" selected-count="{{inboxController.getSelectedCount(inboxController.contactSelector.selectedItems)}}" item-count="{{inboxController.contactStreamData.relevantContactsCount}}" reset-selections="inboxController.resetSelections()" true-all-selected="inboxController.contactSelector.trueAllSelected" item-type="contact"></cs-select-all-header>
+        </header>
+        <cs-list>
+          <cs-list-loading-state ng-if="inboxController.isPreparingSearch || inboxController.contactStreamData.isSearching">
+            <div class="spinner"></div>
+          </cs-list-loading-state>
+          <div ng-if="inboxController.contactStreamData.contactArray.length" in-view-container="in-view-container" class="listContainer">
+            <div ng-repeat="contact in inboxController.contactStreamData.contactArray | contactFilter: inboxController.predictionContactFilter" in-view="$last &amp;&amp; $inview &amp;&amp; inboxController.nextContactPage()" class="card-container">
+              <div ng-click="inboxController.contactSelector.toggleItemSelection(contact, inboxController.contactStreamData.contactArray)" class="checkboxClickZone pointer">
+                <div ng-class="{selected:inboxController.contactSelector.isSelected(contact)}" id="selectContact_{{contact.id}}" class="checkbox contact-checkbox"></div>
+              </div>
+              <contact-card contact="contact" on-click-body="inboxController.viewContact(contact)" show-relevant-articles="inboxController.showRelevantArticles(contact)" relevant-article-count="{{inboxController.contactStreamData.articleCountMapping[contact.id]}}" icm-base-url="{{inboxController.icmBaseUrl}}"></contact-card>
+            </div>
+          </div>
+          <cs-list-paging-state ng-if="inboxController.contactStreamData.isPaging">
+            <div class="spinner"></div>
+          </cs-list-paging-state>
+          <cs-list-empty-state ng-if="!inboxController.isPreparingSearch &amp;&amp; !inboxController.contactStreamData.isSearching &amp;&amp; inboxController.contactStreamData.contactArray.length &lt;= 0">
+            <div class="mdLayoutFill mdLayout mdLayoutRow mdLayoutAlignCenterCenter">
+              <div class="emptyStateMessage translate">No Contacts</div>
+            </div>
+          </cs-list-empty-state>
+        </cs-list>
+      </core-stream>
+    </div>
+  </div>
+</div>
